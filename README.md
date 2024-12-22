@@ -6,7 +6,8 @@ In this repo, you will find the source code of a Streamlit-based demo kit that s
 - Solving challenging problems with `Code Interpreter` (that builds and runs sandboxed Python code);
 - Grounding model's output (completion) with real-time `Bing Search` results.
 
-The Web app can run locally on your computer and requires access to AI model deployed in Azure AI Foundry. Alternatively, you can deploy ready-to-use pre-built app from the provided Docker image.
+> [!NOTE]
+> The Web app can run locally on your computer and requires access to AI model deployed in Azure AI Foundry. Alternatively, you can deploy ready-to-use pre-built app from the provided Docker image.
 
 ## Table of contents:
 - [Part 1: Configuring solution environment](https://github.com/LazaUK/AIFoundry-AgentService-Streamlit#part-1-configuring-solution-environment)
