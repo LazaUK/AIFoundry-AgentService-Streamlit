@@ -9,7 +9,7 @@ In this repo, you will find the source code of a Streamlit-based UI Demo Kit tha
 ![Home Page of Demo Kit](images/demokit_homepage.png)
 
 > [!NOTE]
-> The Web app can run locally on your computer and requires access to AI model deployed in Azure AI Foundry. Alternatively, you can deploy ready-to-use pre-built app from the provided Docker image.
+> The Streamlit app can run locally on your computer and requires access to AI model(s) deployed in Azure AI Foundry. Alternatively, you can deploy ready-to-use pre-built app from the provided Docker image.
 
 ## Table of contents:
 - [Part 1: Configuring solution environment](https://github.com/LazaUK/AIFoundry-AgentService-Streamlit#part-1-configuring-solution-environment)
