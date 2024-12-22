@@ -1,7 +1,7 @@
 import streamlit as st
 import os
 from azure.ai.projects import AIProjectClient
-from azure.ai.projects.models import CodeInterpreterTool
+from azure.ai.projects.models import CodeInterpreterTool, ToolSet
 from azure.identity import DefaultAzureCredential
 from typing import Any
 import matplotlib.pyplot as plt
@@ -14,8 +14,8 @@ from pathlib import Path
 
 # Set page config
 st.set_page_config(
-    page_title="AgentService-DemoKit",
-    page_icon=":ninja:"
+    page_title = "AgentService-DemoKit",
+    page_icon = ":ninja:"
 )
 
 # Streamlit state to store environment variables and image paths
@@ -28,8 +28,13 @@ if 'progress' not in st.session_state:
 
 # Set sidebar navigation
 st.sidebar.title("Instructions:")
-st.sidebar.write("This Streamlit app is a demo kit for Azure AI Foundry's Agent Service.")
-st.sidebar.write("Please, ensure that you setup the right environment variables. For details, refer to the source [GitHub page](https://github.com/LazaUK/AIFoundry-AgentService-Streamlit).")
+st.sidebar.markdown(
+    """
+    This Streamlit app is a demo kit for Azure AI Foundry's Agent Service.
+
+    Please, ensure that you setup the right environment variables. For details, refer to the source [GitHub page](https://github.com/LazaUK/AIFoundry-AgentService-Streamlit).
+    """
+)
 menu = st.sidebar.radio("Choose a capability:", ("Code Interpreter", "Bing Search"))
 
 # Helper Function for Code Interpreter capability
@@ -43,23 +48,24 @@ def code_interpreter(prompt):
     try:
         # Initiate AI Project client
         project_client = AIProjectClient.from_connection_string(
-            credential=DefaultAzureCredential(),
-            conn_str=conn_str
+            credential = DefaultAzureCredential(),
+            conn_str = conn_str
         )
         progress_bar = st.progress(0)
         st.session_state.progress += 25
         progress_bar.progress(st.session_state.progress)
 
-        # Initiate Interpreter Tool
+        # Add Code Interpreter to the Agent's ToolSet
+        toolset = ToolSet()
         code_interpreter_tool = CodeInterpreterTool()
+        toolset.add(code_interpreter_tool)
 
         # Initiate Agent Service
         agent = project_client.agents.create_agent(
-            model="gpt-4o-mini",
-            name="demo-agent",
-            instructions="You are a helpful data analyst. You can use Python to perform required calculations.",
-            tools=code_interpreter_tool.definitions,
-            tool_resources=code_interpreter_tool.resources
+            model = "gpt-4o-mini",
+            name = "demo-agent",
+            instructions = "You are a helpful data analyst. You can use Python to perform required calculations.",
+            toolset = toolset
         )
         st.session_state.progress += 25
         progress_bar.progress(st.session_state.progress)
@@ -73,16 +79,16 @@ def code_interpreter(prompt):
 
         # Create a message
         message = project_client.agents.create_message(
-            thread_id=thread.id,
-            role="user",
-            content=prompt
+            thread_id = thread.id,
+            role = "user",
+            content = prompt
         )
         print(f"Created message, message ID: {message.id}")
 
         # Run the agent
         run = project_client.agents.create_and_process_run(
-            thread_id=thread.id,
-            assistant_id=agent.id
+            thread_id = thread.id,
+            assistant_id = agent.id
         )
 
         # Check the run status
