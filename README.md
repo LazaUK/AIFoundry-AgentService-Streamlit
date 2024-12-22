@@ -2,7 +2,7 @@
 
 **Agent Service** is a powerful tool within Azure AI Foundry that allows you to build and deploy intelligent AI agents. These agents can be customised to answer questions, perform tasks and interact with users in a natural and intuitive way.
 
-In this repo, you will find the source code of a Streamlit Web app that XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX. The Web app can run locally on your computer and requires access to your AI model deployed in Azure AI Foundry.
+In this repo, you will find the source code of a Streamlit Web app that showcases Agent Service's various capabilities. The Web app can run locally on your computer and requires access to AI model deployed in Azure AI Foundry.
 
 ## Table of contents:
 - [Part 1: Configuring solution environment]()
