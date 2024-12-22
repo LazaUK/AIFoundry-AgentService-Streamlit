@@ -1,12 +1,9 @@
-import streamlit as st
 import os
 from azure.ai.projects import AIProjectClient
 from azure.ai.projects.models import CodeInterpreterTool, ToolSet
 from azure.identity import DefaultAzureCredential
-from typing import Any
-import matplotlib.pyplot as plt
+import streamlit as st
 from PIL import Image
-from pathlib import Path
 
 # Author: Laziz Turakulov
 # Date: 2024-12-23
@@ -65,7 +62,7 @@ def code_interpreter(prompt):
 
         # Initiate Agent Service
         agent = project_client.agents.create_agent(
-            model = "gpt-4o-mini",
+            model = os.getenv("AZURE_FOUNDRY_GPT_MODEL"),
             name = "demo-agent",
             instructions = "You are a helpful data analyst. You can use Python to perform required calculations.",
             toolset = toolset
@@ -152,7 +149,7 @@ def bing_search(prompt):
 st.title("Azure AI Foundry's Agent Service Demo Kit")
 
 if menu == "Code Interpreter":
-    st.header("Code Interpreter Capability")
+    st.header("Solving challenging problems with sandboxed Python code")
     default_prompt = """
     Could you please analyse the operating profit of Contoso Inc. 
     using the following data and producing a bar chart image? 
@@ -180,10 +177,13 @@ if menu == "Code Interpreter":
         st.session_state['interpreter_code'] = ''
 
 elif menu == "Bing Search":
-    st.header("Bing Search Capability")
-    prompt = st.text_area("Enter your search query:", value="Microsoft Azure AI")
+    st.header("Grounding with real-time Bing Search results")
+    prompt = st.text_area("Enter your search query:", value="Can you provide a summary of the 2024 Formula 1 season, including the key highlights?", height=150)
     if st.button("Run"):
         result = bing_search(prompt)
         st.text_area("Output:", value=str(result), height=200)
     if st.button("Clear"):
         st.text_area("Output:", value="", height=200)
+
+else:
+    st.header("Please, choose a capability from the sidebar.")
