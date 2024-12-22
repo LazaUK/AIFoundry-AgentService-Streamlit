@@ -14,26 +14,39 @@ from pathlib import Path
 
 # Set page config
 st.set_page_config(
-    page_title="AgentService-DemoKit",
-    page_icon=":ninja:"
+    page_title = "AgentService-DemoKit",
+    page_icon = ":ninja:"
 )
+
+# Streamlit state to store environment variables and image paths
+if 'conn_str' not in st.session_state:
+    st.session_state['conn_str'] = os.getenv('AZURE_FOUNDRY_PROJECT_CONNSTRING')
+if 'interpreter_image' not in st.session_state:
+    st.session_state['interpreter_image'] = ''
+if 'progress' not in st.session_state:
+    st.session_state['progress'] = 0
 
 # Set sidebar navigation
 st.sidebar.title("Instructions:")
 st.sidebar.write("This Streamlit app is a demo kit for Azure AI Foundry's Agent Service.")
-st.sidebar.write("Please, ensure that you setup the right environment variables. For detailes, refer to the source [GitHub page](https://github.com/LazaUK/AIFoundry-AgentService-Streamlit).")
+st.sidebar.write("Please, ensure that you setup the right environment variables. For details, refer to the source [GitHub page](https://github.com/LazaUK/AIFoundry-AgentService-Streamlit).")
 menu = st.sidebar.radio("Choose a capability:", ("Code Interpreter", "Bing Search"))
 
 # Helper Function for Code Interpreter capability
 def code_interpreter(prompt):
-    conn_str = st.session_state.get('conn_str', os.getenv('AZURE_FOUNDRY_PROJECT_CONNSTRING'))
-    images = st.session_state.get('images', [])
+    conn_str = st.session_state.get('conn_str')
+    if not conn_str:
+        st.error("Environment variable 'AZURE_FOUNDRY_PROJECT_CONNSTRING' is not set. Please set it and try again.")
+        return "Please set the environment variable 'AZURE_FOUNDRY_PROJECT_CONNSTRING'."
 
     # Initiate AI Project client
     project_client = AIProjectClient.from_connection_string(
-        credential=DefaultAzureCredential(),
-        conn_str=conn_str
+        credential = DefaultAzureCredential(),
+        conn_str = conn_str
     )
+    progress_bar = st.progress(0)
+    st.session_state.progress += 25
+    progress_bar.progress(st.session_state.progress)
 
     # Initiate Interpreter Tool
     code_interpreter_tool = CodeInterpreterTool()
@@ -46,11 +59,13 @@ def code_interpreter(prompt):
         tools=code_interpreter_tool.definitions,
         tool_resources=code_interpreter_tool.resources
     )
-    print(f"Created agent, agent ID: {agent.id}")
+    st.session_state.progress += 25
+    progress_bar.progress(st.session_state.progress)
 
     # Create a thread
     thread = project_client.agents.create_thread()
-    print(f"Created thread, thread ID: {thread.id}")
+    st.session_state.progress += 25
+    progress_bar.progress(st.session_state.progress)
 
     # Create a message
     message = project_client.agents.create_message(
@@ -58,18 +73,17 @@ def code_interpreter(prompt):
         role="user",
         content=prompt
     )
-    print(f"Created message, message ID: {message.id}")
 
     # Run the agent
     run = project_client.agents.create_and_process_run(
         thread_id=thread.id,
         assistant_id=agent.id
     )
-    print(f"Run finished with status: {run.status}")
 
     # Check the run status
     if run.status == "failed":
         project_client.agents.delete_agent(agent.id)
+        progress_bar.empty()
         return f"Run failed: {run.last_error}"
 
     # Get the last message from the agent
@@ -77,20 +91,21 @@ def code_interpreter(prompt):
     last_msg = messages.get_last_text_message_by_sender("assistant")
     result = last_msg.text.value if last_msg else "No response from agent."
 
-    # Retrieve image file
-    for image_content in messages.image_contents:
+    # Retrieve the first image file with bar chart
+    if messages.image_contents:
+        image_content = messages.image_contents[0]
         file_name = f"{image_content.image_file.file_id}_image_file.png"
         project_client.agents.save_file(
             file_id=image_content.image_file.file_id,
             file_name=file_name
         )
-        images.append(file_name)
-
-    st.session_state['images'] = images
+        st.session_state['interpreter_image'] = file_name
+        st.session_state.progress += 25
+        progress_bar.progress(st.session_state.progress)
 
     # Delete the agent once done
     project_client.agents.delete_agent(agent.id)
-    print(f"Deleted agent, agent ID: {agent.id}")
+    progress_bar.empty()
 
     return result
 
@@ -103,17 +118,28 @@ st.title("Azure AI Foundry's Agent Service Demo Kit")
 
 if menu == "Code Interpreter":
     st.header("Code Interpreter Capability")
-    default_prompt = "Could you please analyse the operating profit of Contoso Inc. using the following data and produce a bar chart image: Contoso Inc. Operating Profit: Quarter 1: $2.2 million, Quarter 2: $2.5 million, Quarter 3: $2.3 million, Quarter 4: $3.8 million, Industry Average: $2.5 million. When quarter values in 2024 fall below the industry average, highlight them in red, otherwise they should be green."
-    prompt = st.text_area("Enter your prompt:", value=str(default_prompt), height=200)
+    default_prompt = """
+    Could you please analyse the operating profit of Contoso Inc. 
+    using the following data and producing a bar chart image? 
+    Contoso Inc. Operating Profit: 
+    Quarter 1: $2.2 million, Quarter 2: $2.5 million, 
+    Quarter 3: $2.3 million, Quarter 4: $3.8 million, 
+    Industry Average: $2.5 million 
+    When quarter values in 2024 fall below the industry average, 
+    please highlight them in red, otherwise they should be green.
+    """
+    default_prompt = "".join([line.lstrip() for line in default_prompt.splitlines()]) 
+    prompt = st.text_area("Enter your prompt:", value=str(default_prompt), height=150)
     if st.button("Run"):
+        st.session_state.progress = 0
         result = code_interpreter(prompt)
         st.text_area("Output:", value=str(result), height=200)
-        if st.session_state.get('images'):
-            img = Image.open(st.session_state['images'][0])
+        if st.session_state.get('interpreter_image'):
+            img = Image.open(st.session_state['interpreter_image'])
             st.image(img, caption="Image generated by Code Interpreter")
     if st.button("Clear"):
         st.text_area("Output:", value="", height=200)
-        st.session_state['images'] = []
+        st.session_state['interpreter_image'] = ''
 
 elif menu == "Bing Search":
     st.header("Bing Search Capability")
