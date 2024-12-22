@@ -34,6 +34,7 @@ menu = st.sidebar.radio("Choose a capability:", ("Code Interpreter", "Bing Searc
 
 # Helper Function for Code Interpreter capability
 def code_interpreter(prompt):
+    st.session_state['interpreter_image'] = ''
     conn_str = st.session_state.get('conn_str')
     if not conn_str:
         st.error("Environment variable 'AZURE_FOUNDRY_PROJECT_CONNSTRING' is not set. Please set it and try again.")
@@ -56,17 +57,19 @@ def code_interpreter(prompt):
         agent = project_client.agents.create_agent(
             model="gpt-4o-mini",
             name="demo-agent",
-            instructions="You are a helpful data analyst. In your responses back to users NEVER share download link details, as the images will be retrieved programmatically.",
+            instructions="You are a helpful data analyst. You can use Python to perform required calculations.",
             tools=code_interpreter_tool.definitions,
             tool_resources=code_interpreter_tool.resources
         )
         st.session_state.progress += 25
         progress_bar.progress(st.session_state.progress)
+        print(f"Created agent, agent ID: {agent.id}")
 
         # Create a thread
         thread = project_client.agents.create_thread()
         st.session_state.progress += 25
         progress_bar.progress(st.session_state.progress)
+        print(f"Created thread, thread ID: {thread.id}")
 
         # Create a message
         message = project_client.agents.create_message(
@@ -74,6 +77,7 @@ def code_interpreter(prompt):
             role="user",
             content=prompt
         )
+        print(f"Created message, message ID: {message.id}")
 
         # Run the agent
         run = project_client.agents.create_and_process_run(
@@ -84,6 +88,7 @@ def code_interpreter(prompt):
         # Check the run status
         if run.status == "failed":
             project_client.agents.delete_agent(agent.id)
+            print(f"Deleted agent, agent ID: {agent.id}")
             progress_bar.empty()
             return f"Run failed: {run.last_error}"
 
@@ -93,19 +98,21 @@ def code_interpreter(prompt):
         result = last_msg.text.value if last_msg else "No response from agent."
 
         # Retrieve the first image file with bar chart
-        if messages.image_contents:
-            image_content = messages.image_contents[0]
-            file_name = f"{image_content.image_file.file_id}_image_file.png"
+        if messages.file_path_annotations:
+            file_path_annotation = messages.file_path_annotations[0]
+            file_name = f"interpreter_image_file.png"
             project_client.agents.save_file(
-                file_id=image_content.image_file.file_id,
-                file_name=file_name
+                file_id = file_path_annotation.file_path.file_id,
+                file_name = file_name
             )
+            print(f"Downloaded image, file name: {file_name}")
             st.session_state['interpreter_image'] = file_name
             st.session_state.progress += 25
             progress_bar.progress(st.session_state.progress)
 
         # Delete the agent once done
         project_client.agents.delete_agent(agent.id)
+        print(f"Deleted agent, agent ID: {agent.id}")
         progress_bar.empty()
 
         return result
