@@ -27,5 +27,26 @@ pip install -r requirements.txt
 ## Part 2: Web app - User Guide
 
 ## Part 3: Web app - Docker image option
+This repo comes with a companion Docker image on GitHub Container Registry (GHCR), which has a pre-built Web app with all the required dependencies. It allows you to launch the demo solution as a container without getting deep into its code's specifics.
+
+There are 2 potential options to re-use the provided Docker image.
+
+### a) Using the Docker image "as is":
+1. First you can download the image from GHCR and verify that it's accessible.
+```
+docker pull ghcr.io/lazauk/gpt4v-outofstock:latest
+```
+2. Then you can launch it on your local machine and pass the values of 4 expected environment variables, described in Part 1 above. If you have values of those variables already setup on your host machine, their values will be automatically passed with the Docker run command below.
+```
+docker run -p 8501:8501 --env OPENAI_API_BASE --env OPENAI_API_DEPLOY_VISION --env OPENAI_API_KEY --env OPENAI_API_VERSION ghcr.io/lazauk/gpt4v-outofstock:latest
+```
+
+### b) Using the Docker image as a base for your custom one:
+1. You can refer to the companion Docker image in your Dockerfile.
+```
+FROM ghcr.io/lazauk/gpt4v-outofstock:latest
+```
+2. The **GPT4V_Streamlit.py** file is located in **/app** working directory, while the images are in **/app/images**, where you can update / replace them to customise the solution.
 
 ## Part 4: 1-min demo on YouTube
+This is a short, [1-min demo]() of this solution in action.
