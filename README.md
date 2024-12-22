@@ -5,6 +5,7 @@
 In this repo, you will find the source code of a Streamlit-based UI Demo Kit that showcases Agent Service's various capabilities, such as:
 - Solving challenging problems with `Code Interpreter` (that builds and runs sandboxed Python code);
 - Grounding model's output (completion) with real-time `Bing Search` results.
+![Home Page of Demo Kit](images/demokit_homepage.png)
 
 > [!NOTE]
 > The Web app can run locally on your computer and requires access to AI model deployed in Azure AI Foundry. Alternatively, you can deploy ready-to-use pre-built app from the provided Docker image.
