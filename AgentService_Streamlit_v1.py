@@ -77,15 +77,15 @@ def code_interpreter(prompt, conn_str=project_connstring, model=gpt_model):
             instructions = "You are a helpful data analyst. You can use Python to perform required calculations.",
             toolset = toolset
         )
+        print(f"Created agent, agent ID: {agent.id}")
         st.session_state.progress += 25
         progress_bar.progress(st.session_state.progress)
-        print(f"Created agent, agent ID: {agent.id}")
 
         # Create a thread
         thread = project_client.agents.create_thread()
+        print(f"Created thread, thread ID: {thread.id}")
         st.session_state.progress += 25
         progress_bar.progress(st.session_state.progress)
-        print(f"Created thread, thread ID: {thread.id}")
 
         # Create a message
         message = project_client.agents.create_message(
@@ -159,6 +159,9 @@ def bing_search(prompt, conn_str=project_connstring, model=gpt_model, connection
             credential = DefaultAzureCredential(),
             conn_str = conn_str
         )
+        progress_bar = st.progress(0)
+        st.session_state.progress += 25
+        progress_bar.progress(st.session_state.progress)
 
         # Initialize Bing Grounding Tool
         bing_connection = project_client.connections.get(
@@ -176,10 +179,14 @@ def bing_search(prompt, conn_str=project_connstring, model=gpt_model, connection
             headers={"x-ms-enable-preview": "true"}
         )
         print(f"Created agent, agent ID: {agent.id}")
+        st.session_state.progress += 25
+        progress_bar.progress(st.session_state.progress)
 
         # Create a thread
         thread = project_client.agents.create_thread()
         print(f"Created thread, thread ID: {thread.id}")
+        st.session_state.progress += 25
+        progress_bar.progress(st.session_state.progress)
 
         # Create a message
         message = project_client.agents.create_message(
@@ -199,6 +206,7 @@ def bing_search(prompt, conn_str=project_connstring, model=gpt_model, connection
         if run.status == "failed":
             project_client.agents.delete_agent(agent.id)
             print(f"Deleted agent, agent ID: {agent.id}")
+            progress_bar.empty()
             return f"Run failed: {run.last_error}"
 
         # Retrieve messages from the agent
@@ -213,15 +221,20 @@ def bing_search(prompt, conn_str=project_connstring, model=gpt_model, connection
                     citation_url = annotation['url_citation']['url']
                     citations.append(f"{citation_text}: {citation_url}")
                 print("Retrieved groundings from Bing Search")
+                st.session_state.progress += 25
+                progress_bar.progress(st.session_state.progress)
 
         # Delete the agent once done
         project_client.agents.delete_agent(agent.id)
         print(f"Deleted agent, agent ID: {agent.id}")
+        progress_bar.empty()
         
         result = result if result else "No response from agent."
         return result, citations
 
     except Exception as e:
+        progress_bar.empty()
+        st.error(f"An error occurred: {e}")
         return f"An error occurred: {e}"
 
 # Main screen
@@ -249,6 +262,7 @@ elif menu == "Bing Search":
     st.header("Grounding output with real-time Bing Search results")
     prompt = st.text_area("Enter your search query:", value="Can you provide a summary of the 2024 Formula 1 season, including the key highlights. I need 3 paragraphs to describe the season.", height=150)
     if st.button("Run"):
+        st.session_state.progress = 0
         result, citations = bing_search(prompt)
         st.markdown(result, unsafe_allow_html=True)
         if citations:
