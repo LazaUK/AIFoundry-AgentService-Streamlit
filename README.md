@@ -57,4 +57,4 @@ FROM ghcr.io/lazauk/gpt4v-outofstock:latest
 2. The **GPT4V_Streamlit.py** file is located in **/app** working directory, while the images are in **/app/images**, where you can update / replace them to customise the solution.
 
 ## Part 4: Demo videos on YouTube
-This is a playlist of short [demo videos]() of this solutioon in action.
+This is a [playlist of short videos](https://www.youtube.com/playlist?list=PLcAssiH4f14tXdGMbGwOoUbg7el5QPMC9) to demo this solutioon in action.
