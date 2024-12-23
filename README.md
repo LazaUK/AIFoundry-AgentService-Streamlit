@@ -1,4 +1,4 @@
-# Azure AI Foundry: Agent Service - Demo Kit
+# Azure AI Foundry: Agent Service - UI Demo Kit
 
 **Agent Service** is a powerful offering within Azure AI Foundry that allows you to build and deploy intelligent AI agents. Such AI agents can be customised to answer questions, perform autonomous set of tasks and interact with users in a natural and intuitive way.
 
