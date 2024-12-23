@@ -2,6 +2,7 @@ import os
 from azure.ai.projects import AIProjectClient
 from azure.ai.projects.models import ToolSet, CodeInterpreterTool, BingGroundingTool
 from azure.identity import DefaultAzureCredential
+import streamlit.components.v1 as components
 import streamlit as st
 from PIL import Image
 
@@ -12,7 +13,8 @@ from PIL import Image
 # Set page config
 st.set_page_config(
     page_title = "Agent Service - Demo Kit",
-    page_icon = ":ninja:"
+    page_icon = ":ninja:",
+    layout = "wide"
 )
 
 # Streamlit state to store session state variables
@@ -32,7 +34,7 @@ if missing_vars:
     st.error(f"Environment variable(s) {missing_vars_str} are not set. Please set them and try again.")
     st.stop()
 
-# Initialise key Azure AI Foundry variables
+# Initialise key Demo Kit variables
 project_connstring = st.session_state.get("project_connstring")
 gpt_model = st.session_state.get("gpt_model")
 bing_search = st.session_state.get("bing_search")
@@ -71,7 +73,7 @@ def code_interpreter(prompt, conn_str=project_connstring, model=gpt_model):
         # Initiate Agent Service
         agent = project_client.agents.create_agent(
             model = model,
-            name = "demo-agent",
+            name = "code-interpreter-agent",
             instructions = "You are a helpful data analyst. You can use Python to perform required calculations.",
             toolset = toolset
         )
@@ -150,8 +152,77 @@ def code_interpreter(prompt, conn_str=project_connstring, model=gpt_model):
         return f"An error occurred: {e}"
 
 # Helper Function for Bing Search capability
-def bing_search(prompt):
-    return f"Search results for: {prompt}"
+def bing_search(prompt, conn_str=project_connstring, model=gpt_model, connection_name=bing_search):
+    try:
+        # Initialize AI Project client
+        project_client = AIProjectClient.from_connection_string(
+            credential = DefaultAzureCredential(),
+            conn_str = conn_str
+        )
+
+        # Initialize Bing Grounding Tool
+        bing_connection = project_client.connections.get(
+            connection_name = connection_name
+        )
+        connection_id = bing_connection.id
+        bing = BingGroundingTool(connection_id=connection_id)
+
+        # Initiate Agent Service
+        agent = project_client.agents.create_agent(
+            model = model,
+            name = "bing-search-agent",
+            instructions = "You are a helpful assistant that uses Bing Search to answer user questions.",
+            tools = bing.definitions,
+            headers={"x-ms-enable-preview": "true"}
+        )
+        print(f"Created agent, agent ID: {agent.id}")
+
+        # Create a thread
+        thread = project_client.agents.create_thread()
+        print(f"Created thread, thread ID: {thread.id}")
+
+        # Create a message
+        message = project_client.agents.create_message(
+            thread_id = thread.id,
+            role = "user",
+            content = prompt
+        )
+        print(f"Created message, message ID: {message.id}")
+
+        # Run the agent
+        run = project_client.agents.create_and_process_run(
+            thread_id = thread.id,
+            assistant_id = agent.id
+        )
+
+        # Check the run status
+        if run.status == "failed":
+            project_client.agents.delete_agent(agent.id)
+            print(f"Deleted agent, agent ID: {agent.id}")
+            return f"Run failed: {run.last_error}"
+
+        # Retrieve messages from the agent
+        messages = project_client.agents.list_messages(thread_id=thread.id)
+        result = ""
+        citations = []
+        for message in messages.data:
+            if message.role == "assistant":
+                result = message.content[0].text.value                
+                for annotation in message.content[0].text.annotations:
+                    citation_text = annotation.text
+                    citation_url = annotation['url_citation']['url']
+                    citations.append(f"{citation_text}: {citation_url}")
+                print("Retrieved groundings from Bing Search")
+
+        # Delete the agent once done
+        project_client.agents.delete_agent(agent.id)
+        print(f"Deleted agent, agent ID: {agent.id}")
+        
+        result = result if result else "No response from agent."
+        return result, citations
+
+    except Exception as e:
+        return f"An error occurred: {e}"
 
 # Main screen
 st.title("Azure AI Foundry's Agent Service Demo Kit")
@@ -176,10 +247,14 @@ if menu == "Code Interpreter":
 
 elif menu == "Bing Search":
     st.header("Grounding output with real-time Bing Search results")
-    prompt = st.text_area("Enter your search query:", value="Can you provide a summary of the 2024 Formula 1 season, including the key highlights?", height=150)
+    prompt = st.text_area("Enter your search query:", value="Can you provide a summary of the 2024 Formula 1 season, including the key highlights. I need 3 paragraphs to describe the season.", height=150)
     if st.button("Run"):
-        result = bing_search(prompt)
-        st.text_area("Output:", value=str(result), height=200)
+        result, citations = bing_search(prompt)
+        st.markdown(result, unsafe_allow_html=True)
+        if citations:
+            st.markdown("### Citations")
+            for citation in citations:
+                st.markdown(f"- {citation}")
     if st.button("Clear"):
         st.text_area("Output:", value="", height=200)
 
