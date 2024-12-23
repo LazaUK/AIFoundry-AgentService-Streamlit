@@ -16,7 +16,7 @@ In this repo, you will find the source code of a Streamlit-based UI Demo Kit tha
 - [Part 1: Configuring solution environment](https://github.com/LazaUK/AIFoundry-AgentService-Streamlit#part-1-configuring-solution-environment)
 - [Part 2: Web app - User Guide](https://github.com/LazaUK/AIFoundry-AgentService-Streamlit#part-2-web-app---user-guide)
 - [Part 3: Web app - Docker image option](https://github.com/LazaUK/AIFoundry-AgentService-Streamlit#part-3-web-app---docker-image-option)
-- [Part 4: Demo video on YouTube]()
+- [Part 4: Demo videos on YouTube]()
 
 ## Part 1: Configuring solution environment
 1. Copy the connection string from your AI Foundry's project settings as shown in the image below:
@@ -56,5 +56,5 @@ FROM ghcr.io/lazauk/gpt4v-outofstock:latest
 ```
 2. The **GPT4V_Streamlit.py** file is located in **/app** working directory, while the images are in **/app/images**, where you can update / replace them to customise the solution.
 
-## Part 4: Demo video on YouTube
-This is a short, [1-min demo]() of this solution in action.
+## Part 4: Demo videos on YouTube
+This is a playlist of short [demo videos]() of this solutioon in action.
