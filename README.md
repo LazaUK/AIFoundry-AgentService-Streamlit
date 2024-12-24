@@ -1,13 +1,11 @@
 # Azure AI Foundry: Agent Service - UI Demo Kit
 
-**Agent Service** is a powerful offering within Azure AI Foundry that allows you to build and deploy intelligent AI agents. Such AI agents can be customised to answer questions, perform autonomous set of tasks and interact with users in a natural and intuitive way.
+(Agent Service)[https://learn.microsoft.com/en-us/azure/ai-services/agents/overview] is a powerful offering within Azure AI Foundry that allows you to build and deploy intelligent AI agents. Such AI agents can be customised to answer questions, perform autonomous set of tasks and interact with users in a natural and intuitive way.
 
 In this repo, you will find the source code of a Streamlit-based UI Demo Kit that showcases Agent Service's various capabilities, such as:
 - Solving challenging problems with `Code Interpreter` (that builds and runs sandboxed Python code);
 - Grounding model's output (completion) with real-time `Bing Search` results;
 - with more to come...
-
-![Home Page of Demo Kit](images/demokit_homepage.png)
 
 > [!NOTE]
 > The Streamlit app can run locally on your computer and requires access to AI model(s) deployed in Azure AI Foundry. Alternatively, you can deploy ready-to-use pre-built app from the provided Docker image.
@@ -19,20 +17,28 @@ In this repo, you will find the source code of a Streamlit-based UI Demo Kit tha
 - [Part 4: Demo videos on YouTube]()
 
 ## Part 1: Configuring solution environment
-1. Copy the connection string from your AI Foundry's project settings as shown in the image below:
+1. Copy the connection string from your AI Foundry's Project settings as shown in the image below:
 ![config_foundry_conn_string](images/foundry_conn_string.png)
-2. Set Environment Variable:
+2. Set environment variable for the Project's connection string:
     - _Windows_: Add **AZURE_FOUNDRY_PROJECT_CONNSTRING** as a system variable with the copied string as its value.
     - _macOS/Linux_: Set the variable in your terminal:
       ``` bash
       export AZURE_FOUNDRY_PROJECT_CONNSTRING="your_connection_string"
       ```
-3. Install the required Python packages, by using the **pip** command and the provided requirements.txt file.
+3. Add other environment variables to enable specific capabilities:
+
+| Environment Variable | Description | Scenario |
+| --- | --- | --- |
+| ```AZURE_FOUNDRY_GPT_MODEL``` | Deployment name of **_Azure OpenAI_** GPT model in AI Foundry | * |
+| ```AZURE_FOUNDRY_BING_SEARCH``` | Connection name of **_Bing Searxh_** resource in AI Foundry | Grounding with Bing Search |
+4. Install the required Python packages, by using the **pip** command and the provided requirements.txt file.
 ```
 pip install -r requirements.txt
 ```
 
 ## Part 2: Web app - User Guide
+
+![Home Page of Demo Kit](images/demokit_homepage.png)
 
 ## Part 3: Web app - Docker image option
 This repo comes with a companion Docker image on GitHub Container Registry (GHCR), which has a pre-built Web app with all the required dependencies. It allows you to launch the demo solution as a container without getting deep into its code's specifics.
