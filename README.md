@@ -32,7 +32,7 @@ In this repo, you will find the source code of a Streamlit-based UI Demo Kit tha
 | ```AZURE_FOUNDRY_GPT_MODEL``` | Deployment name of **_Azure OpenAI_** GPT model | * |
 | ```AZURE_FOUNDRY_BING_SEARCH``` | Connection name of **_Bing Search_** resource | Grounding with Bing Search |
 4. Install the required Python packages, by using the **pip** command and the provided requirements.txt file.
-``` PowerShell
+``` bash
 pip install -r requirements.txt
 ```
 
