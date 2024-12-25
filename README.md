@@ -1,20 +1,20 @@
 # Azure AI Foundry: Agent Service - UI Demo Kit
 
-[Agent Service](https://learn.microsoft.com/en-us/azure/ai-services/agents/overview) is a powerful offering within Azure AI Foundry that allows you to build and deploy intelligent AI agents. Such AI agents can be customised to answer questions, perform autonomous set of tasks and interact with users in a natural and intuitive way.
+[Agent Service](https://learn.microsoft.com/en-us/azure/ai-services/agents/overview) is a powerful offering within Azure AI Foundry that allows you to build and deploy intelligent AI agents. These AI agents can be customised to answer questions, perform autonomous sets of tasks and interact with users naturally and intuitively.
 
-In this repo, you will find the source code of a Streamlit-based UI Demo Kit that showcases Agent Service's various capabilities, such as:
-- Solving challenging problems with `Code Interpreter` (that builds and runs sandboxed Python code);
-- Grounding model's output (completion) with real-time `Bing Search` results;
+This repository contains the source code for a Streamlit-based UI Demo Kit showcasing various capabilities of the Agent Service, including::
+- Solving complex problems with the `Code Interpreter` (which builds and runs sandboxed Python code);
+- Grounding model outputs (completions) with real-time `Bing Search` results;
 - with more to come...
 
 > [!NOTE]
-> The Streamlit app can run locally on your computer and requires access to AI model(s) deployed in Azure AI Foundry. Alternatively, you can deploy ready-to-use pre-built app from the provided Docker image.
+> The Streamlit app can be run locally on your computer and requires access to AI models deployed in Azure AI Foundry. Alternatively, you can deploy a pre-built app using the provided Docker image.
 
 ## Table of contents:
 - [Part 1: Configuring solution environment](https://github.com/LazaUK/AIFoundry-AgentService-Streamlit#part-1-configuring-solution-environment)
 - [Part 2: Web app - User Guide](https://github.com/LazaUK/AIFoundry-AgentService-Streamlit#part-2-web-app---user-guide)
 - [Part 3: Web app - Docker image option](https://github.com/LazaUK/AIFoundry-AgentService-Streamlit#part-3-web-app---docker-image-option)
-- [Part 4: Demo videos on YouTube]()
+- [Part 4: Demo videos on YouTube](https://github.com/LazaUK/AIFoundry-AgentService-Streamlit#part-4-demo-videos-on-youtube)
 
 ## Part 1: Configuring solution environment
 1. Copy the connection string from your AI Foundry's Project settings as shown in the image below:
