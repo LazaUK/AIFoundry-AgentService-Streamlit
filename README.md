@@ -31,10 +31,14 @@ In this repo, you will find the source code of a Streamlit-based UI Demo Kit tha
 | --- | --- | --- |
 | ```AZURE_FOUNDRY_GPT_MODEL``` | Deployment name of **_Azure OpenAI_** GPT model | * |
 | ```AZURE_FOUNDRY_BING_SEARCH``` | Connection name of **_Bing Search_** resource | Grounding with Bing Search |
+
 4. Install the required Python packages, by using the **pip** command and the provided requirements.txt file.
 ``` PowerShell
 pip install -r requirements.txt
 ```
+
+> [!NOTE]
+> Local installation utilises _DefaultAzureCredential_ class, and depending on your environment the UI Demo Kit will search for available Azure identities in the order describe [here](https://learn.microsoft.com/en-us/python/api/azure-identity/azure.identity.defaultazurecredential?view=azure-python).
 
 ## Part 2: Web app - User Guide
 1. To launch the Web app, run the following command from this repo's root folder:
