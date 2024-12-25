@@ -19,26 +19,35 @@ In this repo, you will find the source code of a Streamlit-based UI Demo Kit tha
 ## Part 1: Configuring solution environment
 1. Copy the connection string from your AI Foundry's Project settings as shown in the image below:
 ![config_foundry_conn_string](images/foundry_conn_string.png)
-2. Set environment variable for the Project's connection string:
+2. Set environment variable for the copied Project's connection string:
     - _Windows_: Add **AZURE_FOUNDRY_PROJECT_CONNSTRING** as a system variable with the copied string as its value.
     - _macOS/Linux_: Set the variable in your terminal:
       ``` bash
       export AZURE_FOUNDRY_PROJECT_CONNSTRING="your_connection_string"
       ```
-3. Add other environment variables to enable specific capabilities:
+3. Add other environment variables to enable specific UI Demo Kit capabilities:
 
 | Environment Variable | Description | Scenario |
 | --- | --- | --- |
 | ```AZURE_FOUNDRY_GPT_MODEL``` | Deployment name of **_Azure OpenAI_** GPT model | * |
 | ```AZURE_FOUNDRY_BING_SEARCH``` | Connection name of **_Bing Search_** resource | Grounding with Bing Search |
 4. Install the required Python packages, by using the **pip** command and the provided requirements.txt file.
-``` bash
+``` PowerShell
 pip install -r requirements.txt
 ```
 
 ## Part 2: Web app - User Guide
-
+1. To launch the Web app, run the following command from this repo's root folder:
+```
+streamlit run AgentService_Streamlit_v1.py
+```
+2. If everything was installed correctly as per the Part 1's instructions above, you should be able to access the demo solution's Web page locally at http://localhost:8501.
 ![Home Page of Demo Kit](images/demokit_homepage.png)
+3. The UX is intentionally minimalistic. Begin by choosing required capability from the left-side navigation panel.
+4. Next, enter your prompt (each scenario comes with its default prompt) and click the "_Run_" button. Underlying Agent Service will utilise relevant tool(s), with the run status reflected in the progress bar. Depending on the selected scenario, the output may contain text, code and image data.
+
+> [!NOTE]
+> As a Generative AI solution, the Agent Service is inherently non-deterministic. Therefore, it’s normal to receive slightly different outputs in UI Demo Kit for the same prompts.
 
 ## Part 3: Web app - Docker image option
 This repo comes with a companion Docker image on GitHub Container Registry (GHCR), which has a pre-built Web app with all the required dependencies. It allows you to launch the demo solution as a container without getting deep into its code's specifics.
