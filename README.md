@@ -64,17 +64,17 @@ There are two ways to utilise the provided Docker image:
 ### a) Using the Docker image "as is":
 1. First, you download the image from GHCR and verify that it's accessible:
 ``` PowerShell
-docker pull ghcr.io/lazauk/uidemokit:latest
+docker pull ghcr.io/lazauk/uidemokit-agentservice:latest
 ```
 2. Then you launch it on your local machine and pass the values of 3 expected environment variables, described in Part 1 above. If these variables are already set on your host machine, their values will be automatically picked up by the container, when using this command:
 ``` PowerShell
-docker run -p 8501:8501 --env AZURE_FOUNDRY_PROJECT_CONNSTRING --env AZURE_FOUNDRY_GPT_MODEL --env AZURE_FOUNDRY_BING_SEARCH ghcr.io/lazauk/uidemokit:latest
+docker run -p 8501:8501 --env AZURE_FOUNDRY_PROJECT_CONNSTRING --env AZURE_FOUNDRY_GPT_MODEL --env AZURE_FOUNDRY_BING_SEARCH ghcr.io/lazauk/uidemokit-agentservice:latest
 ```
 
 ### b) Using the Docker image as a base for your custom one:
 1. If you prefer to customise the web app, you can use the provided Docker image as a base for your own Dockerfile:
 ``` PowerShell
-FROM ghcr.io/lazauk/uidemokit:latest
+FROM ghcr.io/lazauk/uidemokit-agentservice:latest
 ```
 2. The **AgentService_Streamlit_v1.py** file is located in the /app working directory of the container.
 
