@@ -44,7 +44,7 @@ streamlit run AgentService_Streamlit_v1.py
 2. If everything was installed correctly as per the Part 1's instructions above, you should be able to access the demo solution's Web page locally at http://localhost:8501.
 ![Home Page of Demo Kit](images/demokit_homepage.png)
 3. The UX is intentionally minimalistic. Begin by choosing required capability from the left-side navigation panel.
-4. Next, enter your prompt (each scenario comes with its default prompt) and click the "_Run_" button. Underlying Agent Service will utilise relevant tool(s), with the run status reflected in the progress bar. Depending on the selected scenario, the output may contain text, code and image data.
+4. Next, enter your prompt (each scenario comes with its default prompt) and click the "_Run_" button. Underlying Agent Service will utilise relevant tool(s), with the run status reflected in the progress bar. Depending on the selected scenario, the UI Demo Kit may produce its output in text, code and image formats.
 
 > [!NOTE]
 > As a Generative AI solution, the Agent Service is inherently non-deterministic. Therefore, it’s normal to receive slightly different outputs in UI Demo Kit for the same prompts.
