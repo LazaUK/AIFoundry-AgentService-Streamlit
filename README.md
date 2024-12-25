@@ -2,7 +2,7 @@
 
 [Agent Service](https://learn.microsoft.com/en-us/azure/ai-services/agents/overview) is a powerful offering within Azure AI Foundry that allows you to build and deploy intelligent AI agents. These AI agents can be customised to answer questions, perform autonomous sets of tasks and interact with users naturally and intuitively.
 
-This repository contains the source code for a Streamlit-based UI Demo Kit showcasing various capabilities of the Agent Service, including:
+This repo contains the source code for a Streamlit-based UI Demo Kit showcasing various capabilities of the Agent Service, including:
 - Solving complex problems with the `Code Interpreter` (which builds and runs sandboxed Python code);
 - Grounding model outputs (completions) with real-time `Bing Search` results;
 - with more to come...
@@ -41,17 +41,20 @@ pip install -r requirements.txt
 > Local installation utilises the _DefaultAzureCredential_ class. Depending on your environment, the UI Demo Kit will search for available Azure identities in the order described [here](https://learn.microsoft.com/en-us/python/api/azure-identity/azure.identity.defaultazurecredential?view=azure-python).
 
 ## Part 2: Web app - User Guide
-1. To launch the Web app, run the following command from this repo's root folder:
+1. To launch the web app, run the following command from the root folder of this repo:
 ```
 streamlit run AgentService_Streamlit_v1.py
 ```
-2. If everything was installed correctly as per the Part 1's instructions above, you should be able to access the demo solution's Web page locally at http://localhost:8501.
+2. If everything was installed correctly as per Part 1's instructions, you should be able to access the demo solution's web page locally at http://localhost:8501.
 ![Home Page of Demo Kit](images/demokit_homepage.png)
-3. The UX is intentionally minimalistic. Begin by choosing required capability from the left-side navigation panel.
-4. Next, enter your prompt (each scenario comes with its default prompt) and click the "_Run_" button. Underlying Agent Service will utilise relevant tool(s), with the run status reflected in the progress bar. Depending on the selected scenario, the UI Demo Kit may produce its output in text, code and image formats.
+3. The UX is intentionally minimalistic. Here's how to use it:
+    * **_Choose a Capability_**: Begin by choosing the desired capability from the left-side navigation panel.
+    * **_Enter Your Prompt_**: Each scenario comes with a default prompt. You can modify it in the provided text area.
+    * **_Run the Agent_**: Click the "Run" button. The underlying Agent Service will utilise relevant tools, with the run status reflected in the progress bar.
+    * **_View the Output_**: Depending on the selected scenario, the UI Demo Kit may produce its output in text, code and image formats.
 
 > [!NOTE]
-> As a Generative AI solution, the Agent Service is inherently non-deterministic. Therefore, it’s normal to receive slightly different outputs in UI Demo Kit for the same prompts.
+> As a Generative AI solution, the Agent Service is inherently non-deterministic. Therefore, it’s normal to receive slightly different outputs in the UI Demo Kit for the same prompts.
 
 ## Part 3: Web app - Docker image option
 This repo comes with a companion Docker image on GitHub Container Registry (GHCR), which has a pre-built Web app with all the required dependencies. It allows you to launch the demo solution as a container without getting deep into its code's specifics.
