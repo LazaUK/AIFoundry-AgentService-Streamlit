@@ -1,6 +1,6 @@
 # Azure AI Foundry: Agent Service - UI Demo Kit
 
-[Agent Service](https://learn.microsoft.com/en-us/azure/ai-services/agents/overview) is a powerful offering within Azure AI Foundry that allows you to build and deploy intelligent AI agents. These AI agents can be customised to answer questions, perform autonomous sets of tasks and interact with users naturally and intuitively.
+[Agent Service](https://learn.microsoft.com/en-us/azure/ai-services/agents/overview) is a powerful offering within Azure AI Foundry that allows you to build and deploy intelligent AI agents. AI agents can be customised to answer questions, perform autonomous sets of tasks and interact with users naturally and intuitively.
 
 This repo contains the source code for a Streamlit-based UI Demo Kit showcasing various capabilities of the Agent Service, including:
 - Solving complex problems with the `Code Interpreter` (which builds and runs sandboxed Python code);
