@@ -57,26 +57,26 @@ streamlit run AgentService_Streamlit_v1.py
 > As a Generative AI solution, the Agent Service is inherently non-deterministic. Therefore, it’s normal to receive slightly different outputs in the UI Demo Kit for the same prompts.
 
 ## Part 3: Web app - Docker image option
-This repo comes with a companion Docker image on GitHub Container Registry (GHCR), which has a pre-built Web app with all the required dependencies. It allows you to launch the demo solution as a container without getting deep into its code's specifics.
+This repo includes a companion Docker image on GitHub Container Registry (GHCR), which contains a pre-built web app with all dependencies. It allows you to launch the UI Demo Kit as a container without getting deep into its code's specifics.
 
-There are 2 potential options to re-use the provided Docker image.
+There are two ways to utilise the provided Docker image:
 
 ### a) Using the Docker image "as is":
-1. First you can download the image from GHCR and verify that it's accessible.
+1. First, you download the image from GHCR and verify that it's accessible.
 ``` Docker
 docker pull ghcr.io/lazauk/uidemokit:latest
 ```
-2. Then you can launch it on your local machine and pass the values of 3 expected environment variables, described in Part 1 above. If you have values of those variables already setup on your host machine, their values will be automatically passed with the Docker run command below.
+2. Then you launch it on your local machine and pass the values of 3 expected environment variables, described in Part 1 above. If these variables are already set on your host machine, they will be automatically picked up by the container.
 ``` Docker
 docker run -p 8501:8501 --env AZURE_FOUNDRY_PROJECT_CONNSTRING --env AZURE_FOUNDRY_GPT_MODEL --env AZURE_FOUNDRY_BING_SEARCH ghcr.io/lazauk/uidemokit:latest
 ```
 
 ### b) Using the Docker image as a base for your custom one:
-1. You can refer to the companion Docker image in your Dockerfile.
+1. If you prefer to customise the web app, you can use the provided Docker image as a base for your own Dockerfile:
 ``` Docker
 FROM ghcr.io/lazauk/uidemokit:latest
 ```
-2. The **AgentService_Streamlit_v1.py** file is located in **/app** working directory.
+2. The **AgentService_Streamlit_v1.py** file is located in the /app working directory of the container.
 
 ## Part 4: Demo videos on YouTube
-This is a [playlist of short videos](https://www.youtube.com/playlist?list=PLcAssiH4f14tXdGMbGwOoUbg7el5QPMC9) to demo this solutioon in action.
+This is a [playlist of short videos](https://www.youtube.com/playlist?list=PLcAssiH4f14tXdGMbGwOoUbg7el5QPMC9) demonstrating this solution in action.
