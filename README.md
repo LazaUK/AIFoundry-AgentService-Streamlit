@@ -56,20 +56,20 @@ There are 2 potential options to re-use the provided Docker image.
 
 ### a) Using the Docker image "as is":
 1. First you can download the image from GHCR and verify that it's accessible.
+``` Docker
+docker pull ghcr.io/lazauk/uidemokit:latest
 ```
-docker pull ghcr.io/lazauk/gpt4v-outofstock:latest
-```
-2. Then you can launch it on your local machine and pass the values of 4 expected environment variables, described in Part 1 above. If you have values of those variables already setup on your host machine, their values will be automatically passed with the Docker run command below.
-```
-docker run -p 8501:8501 --env OPENAI_API_BASE --env OPENAI_API_DEPLOY_VISION --env OPENAI_API_KEY --env OPENAI_API_VERSION ghcr.io/lazauk/gpt4v-outofstock:latest
+2. Then you can launch it on your local machine and pass the values of 3 expected environment variables, described in Part 1 above. If you have values of those variables already setup on your host machine, their values will be automatically passed with the Docker run command below.
+``` Docker
+docker run -p 8501:8501 --env AZURE_FOUNDRY_PROJECT_CONNSTRING --env AZURE_FOUNDRY_GPT_MODEL --env AZURE_FOUNDRY_BING_SEARCH ghcr.io/lazauk/uidemokit:latest
 ```
 
 ### b) Using the Docker image as a base for your custom one:
 1. You can refer to the companion Docker image in your Dockerfile.
+``` Docker
+FROM ghcr.io/lazauk/uidemokit:latest
 ```
-FROM ghcr.io/lazauk/gpt4v-outofstock:latest
-```
-2. The **GPT4V_Streamlit.py** file is located in **/app** working directory, while the images are in **/app/images**, where you can update / replace them to customise the solution.
+2. The **AgentService_Streamlit_v1.py** file is located in **/app** working directory.
 
 ## Part 4: Demo videos on YouTube
 This is a [playlist of short videos](https://www.youtube.com/playlist?list=PLcAssiH4f14tXdGMbGwOoUbg7el5QPMC9) to demo this solutioon in action.
