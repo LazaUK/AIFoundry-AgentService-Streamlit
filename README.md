@@ -2,7 +2,7 @@
 
 [Agent Service](https://learn.microsoft.com/en-us/azure/ai-services/agents/overview) is a powerful offering within Azure AI Foundry that allows you to build and deploy intelligent AI agents. These AI agents can be customised to answer questions, perform autonomous sets of tasks and interact with users naturally and intuitively.
 
-This repository contains the source code for a Streamlit-based UI Demo Kit showcasing various capabilities of the Agent Service, including::
+This repository contains the source code for a Streamlit-based UI Demo Kit showcasing various capabilities of the Agent Service, including:
 - Solving complex problems with the `Code Interpreter` (which builds and runs sandboxed Python code);
 - Grounding model outputs (completions) with real-time `Bing Search` results;
 - with more to come...
@@ -17,9 +17,9 @@ This repository contains the source code for a Streamlit-based UI Demo Kit showc
 - [Part 4: Demo videos on YouTube](https://github.com/LazaUK/AIFoundry-AgentService-Streamlit#part-4-demo-videos-on-youtube)
 
 ## Part 1: Configuring solution environment
-1. Copy the connection string from your AI Foundry's Project settings as shown in the image below:
+1. Copy the connection string from your AI Foundry Project settings, as shown in the image below:
 ![config_foundry_conn_string](images/foundry_conn_string.png)
-2. Set environment variable for the copied Project's connection string:
+2. Set the environment variable for the copied Project connection string:
     - _Windows_: Add **AZURE_FOUNDRY_PROJECT_CONNSTRING** as a system variable with the copied string as its value.
     - _macOS/Linux_: Set the variable in your terminal:
       ``` bash
@@ -29,16 +29,16 @@ This repository contains the source code for a Streamlit-based UI Demo Kit showc
 
 | Environment Variable | Description | Scenario |
 | --- | --- | --- |
-| ```AZURE_FOUNDRY_GPT_MODEL``` | Deployment name of **_Azure OpenAI_** GPT model | * |
-| ```AZURE_FOUNDRY_BING_SEARCH``` | Connection name of **_Bing Search_** resource | Grounding with Bing Search |
+| ```AZURE_FOUNDRY_GPT_MODEL``` | Deployment name of the **_Azure OpenAI_** GPT model | * |
+| ```AZURE_FOUNDRY_BING_SEARCH``` | Connection name of the **_Bing Search_** resource | Grounding with Bing Search |
 
-4. Install the required Python packages, by using the **pip** command and the provided requirements.txt file.
+4. Install the required Python packages using the **pip** command and the provided requirements.txt file.
 ``` PowerShell
 pip install -r requirements.txt
 ```
 
 > [!NOTE]
-> Local installation utilises _DefaultAzureCredential_ class, and depending on your environment the UI Demo Kit will search for available Azure identities in the order describe [here](https://learn.microsoft.com/en-us/python/api/azure-identity/azure.identity.defaultazurecredential?view=azure-python).
+> Local installation utilises the _DefaultAzureCredential_ class. Depending on your environment, the UI Demo Kit will search for available Azure identities in the order described [here](https://learn.microsoft.com/en-us/python/api/azure-identity/azure.identity.defaultazurecredential?view=azure-python).
 
 ## Part 2: Web app - User Guide
 1. To launch the Web app, run the following command from this repo's root folder:
