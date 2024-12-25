@@ -1,6 +1,6 @@
 # Azure AI Foundry: Agent Service - UI Demo Kit
 
-[Agent Service](https://learn.microsoft.com/en-us/azure/ai-services/agents/overview) is a powerful offering within Azure AI Foundry that allows you to build and deploy intelligent AI agents. AI agents can be customised to answer questions, perform autonomous sets of tasks and interact with users naturally and intuitively.
+[Agent Service](https://learn.microsoft.com/en-us/azure/ai-services/agents/overview) is a powerful offering within Azure AI Foundry that allows you to develop intelligent AI agents. AI agents can be customised to answer questions, perform autonomous sets of tasks and interact with users naturally and intuitively.
 
 This repo contains the source code for a Streamlit-based UI Demo Kit showcasing various capabilities of the Agent Service, including:
 - Solving complex problems with the `Code Interpreter` (which builds and runs sandboxed Python code);
@@ -20,7 +20,7 @@ This repo contains the source code for a Streamlit-based UI Demo Kit showcasing 
 1. Copy the connection string from your AI Foundry Project settings, as shown in the image below:
 ![config_foundry_conn_string](images/foundry_conn_string.png)
 2. Set the environment variable for the copied Project connection string:
-    - _Windows_: Add **AZURE_FOUNDRY_PROJECT_CONNSTRING** as a system variable with the copied string as its value.
+    - _Windows_: Add **AZURE_FOUNDRY_PROJECT_CONNSTRING** as a system variable with the copied string as its value;
     - _macOS/Linux_: Set the variable in your terminal:
       ``` bash
       export AZURE_FOUNDRY_PROJECT_CONNSTRING="your_connection_string"
@@ -32,7 +32,7 @@ This repo contains the source code for a Streamlit-based UI Demo Kit showcasing 
 | ```AZURE_FOUNDRY_GPT_MODEL``` | Deployment name of the **_Azure OpenAI_** GPT model | * |
 | ```AZURE_FOUNDRY_BING_SEARCH``` | Connection name of the **_Bing Search_** resource | Grounding with Bing Search |
 
-4. Install the required Python packages using the **pip** command and the provided requirements.txt file.
+4. Install the required Python packages using the **pip** command and the provided requirements.txt file:
 ``` PowerShell
 pip install -r requirements.txt
 ```
@@ -62,11 +62,11 @@ This repo includes a companion Docker image on GitHub Container Registry (GHCR),
 There are two ways to utilise the provided Docker image:
 
 ### a) Using the Docker image "as is":
-1. First, you download the image from GHCR and verify that it's accessible.
+1. First, you download the image from GHCR and verify that it's accessible:
 ``` Docker
 docker pull ghcr.io/lazauk/uidemokit:latest
 ```
-2. Then you launch it on your local machine and pass the values of 3 expected environment variables, described in Part 1 above. If these variables are already set on your host machine, they will be automatically picked up by the container.
+2. Then you launch it on your local machine and pass the values of 3 expected environment variables, described in Part 1 above. If these variables are already set on your host machine, their values will be automatically picked up by the container, when using this command:
 ``` Docker
 docker run -p 8501:8501 --env AZURE_FOUNDRY_PROJECT_CONNSTRING --env AZURE_FOUNDRY_GPT_MODEL --env AZURE_FOUNDRY_BING_SEARCH ghcr.io/lazauk/uidemokit:latest
 ```
