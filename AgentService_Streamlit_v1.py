@@ -109,7 +109,7 @@ def code_interpreter(prompt, conn_str=project_connstring, model=gpt_model):
             return f"Run failed: {run.last_error}"
 
         # Get the last message from the agent
-        messages = project_client.agents.get_messages(thread_id=thread.id)
+        messages = project_client.agents.list_messages(thread_id=thread.id)
         last_msg = messages.get_last_text_message_by_sender("assistant")
         result = last_msg.text.value if last_msg else "No response from agent."
 
