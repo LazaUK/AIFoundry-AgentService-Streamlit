@@ -68,13 +68,13 @@ There are two ways to utilise the provided Docker image:
     * `_Registry server URL_`: https://ghcr.io
     * `_Image and tag_`: lazauk/uidemokit-agentservice:latest
     * `_Port_`: 8501
-[Web App - Container Config](images/webapp_containerconfig.png)
+![Web App - Container Config](images/webapp_containerconfig.png)
 2. Enable **Managed Identity** for your newly created Web App:
-[Web App - Managed Identity](images/webapp_identity.png)
+![Web App - Managed Identity](images/webapp_identity.png)
 3. In Azure AI Foundry, assign your Web App's managed identity the **Azure AI Developer** role:
-[Web App - Managed Identity](images/webapp_identityRBAC.png)
+![Web App - Managed Identity](images/webapp_identityRBAC.png)
 4. Add new **application settings** for each environment variable described in Part 1 above.
-[Web App - Managed Identity](images/webapp_envvars.png)
+![Web App - Managed Identity](images/webapp_envvars.png)
 
 ### b) Using the Docker image as a base for your custom one:
 1. If you prefer to customise the web app, you can use the provided Docker image as a base for your own Dockerfile. Begin your Dockerfile with the following line:
