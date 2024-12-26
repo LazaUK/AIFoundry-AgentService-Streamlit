@@ -57,26 +57,34 @@ streamlit run AgentService_Streamlit_v1.py
 > As a Generative AI solution, the Agent Service is inherently non-deterministic. Therefore, it’s normal to receive slightly different outputs in the UI Demo Kit for the same prompts.
 
 ## Part 3: Web app - Docker image option
-This repo includes a companion Docker image on GitHub Container Registry (GHCR), which contains a pre-built web app with all dependencies. It allows you to launch the UI Demo Kit as a container without getting deep into its code's specifics.
+This repo includes a companion Docker image on GitHub Container Registry (GHCR), containing a pre-built web app with all dependencies. It allows you to launch the UI Demo Kit as a container without getting deep into its code's specifics.
 
 There are two ways to utilise the provided Docker image:
 
-### a) Using the Docker image "as is":
-1. First, you download the image from GHCR and verify that it's accessible:
-``` PowerShell
-docker pull ghcr.io/lazauk/uidemokit-agentservice:latest
-```
-2. Then you launch it on your local machine and pass the values of 3 expected environment variables, described in Part 1 above. If these variables are already set on your host machine, their values will be automatically picked up by the container, when using this command:
-``` PowerShell
-docker run -p 8501:8501 --env AZURE_FOUNDRY_PROJECT_CONNSTRING --env AZURE_FOUNDRY_GPT_MODEL --env AZURE_FOUNDRY_BING_SEARCH ghcr.io/lazauk/uidemokit-agentservice:latest
-```
+### a) Deploying as an Azure Web App:
+1. Create a new Azure Web App and set the source container to:
+    * `_Image Source_`: Other container registries
+    * `_Access type_`: Public
+    * `_Registry server URL_`: https://ghcr.io
+    * `_Image and tag_`: lazauk/uidemokit-agentservice:latest
+    * `_Port_`: 8501
+[Web App - Container Config](images/webapp_containerconfig.png)
+2. Enable **Managed Identity** for your newly created Web App:
+[Web App - Managed Identity](images/webapp_identity.png)
+3. In Azure AI Foundry, assign your Web App's managed identity the **Azure AI Developer** role:
+[Web App - Managed Identity](images/webapp_identityRBAC.png)
+4. Add new **application settings** for each environment variable described in Part 1 above.
+[Web App - Managed Identity](images/webapp_envvars.png)
 
 ### b) Using the Docker image as a base for your custom one:
-1. If you prefer to customise the web app, you can use the provided Docker image as a base for your own Dockerfile:
+1. If you prefer to customise the web app, you can use the provided Docker image as a base for your own Dockerfile. Begin your Dockerfile with the following line:
 ``` PowerShell
 FROM ghcr.io/lazauk/uidemokit-agentservice:latest
 ```
-2. The **AgentService_Streamlit_v1.py** file is located in the /app working directory of the container.
+2. The main script (**AgentService_Streamlit_v1.py**) is located in the /app working directory of the container.
+
+> [!WARNING]
+> If deploying the Docker container locally or on another cloud platform, you will need to configure a mechanism to pass credentials for a service principal authorised to access your Azure AI Foundry resources. This is not required when deploying to Azure Web App with Managed Identity.
 
 ## Part 4: Demo videos on YouTube
 This is a [playlist of short videos](https://www.youtube.com/playlist?list=PLcAssiH4f14tXdGMbGwOoUbg7el5QPMC9) demonstrating this solution in action.
